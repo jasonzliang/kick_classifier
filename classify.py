@@ -177,9 +177,9 @@ def smote(newFeatures, labels):
 #16:ballDist,17:angleOfKick,18:ballVelocity,19:angleBetweenMeAndBall
 
 
-def classify(filename='6_4_type4_apollo3d.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
-             thres=0.5, useFeatures=[0,1] + range(2,13), useAll=False, batch=False, useCache=True,
-             featureSelect=False, kickType=[10], draw=False, scale=False, C=1.0, B=1.0, returnProb=False): 
+def classify(filename='6_14_type4_apollo3d.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
+             thres=0.5, useFeatures=[0,1] + range(2,13), useAll=True, batch=False, useCache=True,
+             featureSelect=False, kickType=[13], draw=False, scale=False, C=1.0, B=1.0, returnProb=False): 
   
   features, labels = parse(filename=filename, useCache=useCache, ezKickSuccess=False, 
                            kickType=kickType, useFirstOnly=False)
