@@ -85,9 +85,9 @@ def tuneParameters(weightString="-w-1 1.0 -w1 1.0 ", trainFile='models/type2_fc_
 myCustomWeights = [0.5, 0.75, 1.0, 1.5, 2.0]
 customProb=[0.5, 0.75, 0.9]
 
-def outputTrainingFile(filename="5_4_type4_apollo3d.txt", outputDir="models_5_4", trainFrac=1.0,
-                       useCache=True, kickTypes=[[10],[11]], useFeatures=[0,1,2,3,4,5,6,7], 
-                       useAll=True, scaling=False, equalClassSize=True, customWeights=myCustomWeights, 
+def outputTrainingFile(filename="6_20_type4_apollo3d.txt", outputDir="models_6_20_apollo", trainFrac=1.0,
+                       useCache=True, kickTypes=[[13]], useFeatures= range(1,36), 
+                       useAll=False, scaling=False, equalClassSize=True, customWeights=myCustomWeights, 
                        customProb=customProb, C=1.0, B=1.0, paramFile=None):
   if not os.path.exists(outputDir):
     os.system("mkdir -p " + outputDir)

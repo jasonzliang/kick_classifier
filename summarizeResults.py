@@ -24,7 +24,7 @@ def listofmodels(directory):
   print "models:", models 
   return models
 
-def summarizeGameData(directory="5_4_type4_apollo3d_kickTest/results", enemyTeam="apollo3d"):
+def summarizeGameData(directory="6_20_type4_bahiart_test/results", enemyTeam="apollo3d"):
   def getScoreInformation(scoreFiles):
     processed = {}
     goalDiff = []

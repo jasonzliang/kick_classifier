@@ -36,11 +36,11 @@ import random
 def parseGameState(gameState, useFirstOnly=False):  
   rawDataArray = gameState.split(":")
   initTime = float(rawDataArray[1])
-  agentInfo = rawDataArray[3]
-  kickTargetandType = rawDataArray[5]
-  
-  agentType = int(agentInfo.split()[1])
-  kickTargetandType = [float(x) for x in kickTargetandType.split()]
+  agentInfo = [float(x) for x in rawDataArray[3].split()]
+  kickTargetandType = [float(x) for x in rawDataArray[5].split()]
+  # print kickTargetandType
+
+  agentType = int(agentInfo[1])
   directFeatures = [x for x in rawDataArray[6:] if x != "directFeatures"]
   numDirectFeatures = len(directFeatures)
   
@@ -82,8 +82,13 @@ def parseKickSuccess(initTime, ballMovement, ezKickSuccess=False):
   ballAfter = (afterKick[0], afterKick[1])
 
   travelDist = getDistTo(ballBefore, target) - getDistTo(ballAfter, target)
-  
-  if travelDist > getDribbleDist(timeElapsed):
+  # travelDist = getDistTo(ballBefore, ballAfter)
+  # distToTarget = getDistTo(ballBefore, target)
+  angleError = angBetween3Pts(ballBefore, ballAfter, target)
+  # print "time elapsed:", timeElapsed, "ball travel distance:", travelDist, "distance between ball position before kick and kick target:", getDistTo(ballBefore, target)
+  succeed = travelDist > getDribbleDist(timeElapsed)
+
+  if succeed:
     return 1
   else:
     return -1
@@ -112,19 +117,19 @@ def parse(filename="sample.txt", useCache=False, ezKickSuccess=False, useFirstOn
       print "parsed " + str(counter) + " samples\t"  + str(index) + " lines"
     rawGameState, ballMovement = line.rstrip().split("#")
     
-    try:
-      initTime, kickTargetandType, agentType, numDirectFeatures, directFeatures = parseGameState(rawGameState, useFirstOnly)
-      if kickTargetandType[2] not in kickType:
+    # try:
+    initTime, kickTargetandType, agentType, numDirectFeatures, directFeatures = parseGameState(rawGameState, useFirstOnly)
+    if kickTargetandType[2] not in kickType:
 #         print kickTargetandType[2]
-        raise
-      label = parseKickSuccess(initTime, ballMovement, ezKickSuccess=ezKickSuccess)
-      temp = np.empty(numDirectFeatures)
-      temp[:] = label
-      features.append(directFeatures)
-      labels.append(temp)
-      counter += numDirectFeatures
-    except:
       continue
+    label = parseKickSuccess(initTime, ballMovement, ezKickSuccess=ezKickSuccess)
+    temp = np.empty(numDirectFeatures)
+    temp[:] = label
+    features.append(directFeatures)
+    labels.append(temp)
+    counter += numDirectFeatures
+    # except:
+    #   continue
   
   featureArray = np.vstack(features)
   labelArray = np.concatenate(labels)
@@ -177,8 +182,8 @@ def smote(newFeatures, labels):
 #16:ballDist,17:angleOfKick,18:ballVelocity,19:angleBetweenMeAndBall
 
 
-def classify(filename='6_14_type4_apollo3d.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
-             thres=0.5, useFeatures=[0,1] + range(2,13), useAll=True, batch=False, useCache=True,
+def classify(filename='6_20_type4_bahiart.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
+             thres=0.5, useFeatures=range(1,36), useAll=False, batch=False, useCache=True,
              featureSelect=False, kickType=[13], draw=False, scale=False, C=1.0, B=1.0, returnProb=False): 
   
   features, labels = parse(filename=filename, useCache=useCache, ezKickSuccess=False, 
