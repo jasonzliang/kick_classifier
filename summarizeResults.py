@@ -24,7 +24,12 @@ def listofmodels(directory):
   print "models:", models 
   return models
 
-def summarizeGameData(directory="6_20_type4_bahiart_test/results", enemyTeam="apollo3d"):
+def summarizeGameData(directory="6_30_type4_apollo3d_test/results", enemyTeam="apollo3d"):
+  if not os.path.exists(directory):
+    print direction + " not found!"
+    print "Are you sure directory exists?"
+    sys.exit(-1)
+
   def getScoreInformation(scoreFiles):
     processed = {}
     goalDiff = []
