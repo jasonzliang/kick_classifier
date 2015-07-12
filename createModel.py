@@ -85,9 +85,9 @@ def tuneParameters(weightString="-w-1 1.0 -w1 1.0 ", trainFile='models/type2_fc_
 myCustomWeights = [0.5, 0.75, 1.0, 1.5, 2.0]
 customProb=[0.5, 0.75, 0.9]
 
-def outputTrainingFile(filename="6_20_type4_apollo3d.txt", outputDir="models_6_20_apollo", trainFrac=1.0,
-                       useCache=True, kickTypes=[[13]], useFeatures= range(1,36), 
-                       useAll=False, scaling=False, equalClassSize=True, customWeights=myCustomWeights, 
+def outputTrainingFile(filename="7_10_t4_a3d_v2.txt", outputDir="models_7_10_apollo", trainFrac=1.0,
+                       useCache=True, kickTypes=[[10]], useFeatures= range(35), 
+                       useAll=True, scaling=False, equalClassSize=True, customWeights=myCustomWeights, 
                        customProb=customProb, C=1.0, B=1.0, paramFile=None):
   if not os.path.exists(outputDir):
     os.system("mkdir -p " + outputDir)
@@ -174,14 +174,15 @@ def outputTrainingFile(filename="6_20_type4_apollo3d.txt", outputDir="models_6_2
       weightOutputDir = os.path.join(outputDir, folderName)
       if not os.path.exists(weightOutputDir):
         os.system("mkdir -p " + weightOutputDir)
-      with open(os.path.join(weightOutputDir, kickType + ".prob"), 'wb') as f:
+      with open(os.path.join(weightOutputDir, "kick.prob"), 'wb') as f:
         f.write(str(p)+'\n')
       
       if alreadyTrained != None:
         os.system("cp " + alreadyTrained + ".model " + weightOutputDir + "/")
         return alreadyTrained
       else:
-        modelFile = os.path.join(weightOutputDir, kickType + ".train")
+        # modelFile = os.path.join(weightOutputDir, kickType + ".train")
+        modelFile = os.path.join(weightOutputDir, "kick.train")
         
         print subprocess.check_output("./liblinear-1.94/train " + weightString + "-s 0 -e 0.000001 -c " + str(C) + 
                                       " -B " + str(B) + " " + trainFile + " " + modelFile + ".model", shell=True) 

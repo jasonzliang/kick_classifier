@@ -86,7 +86,7 @@ def parseKickSuccess(initTime, ballMovement, ezKickSuccess=False):
   # distToTarget = getDistTo(ballBefore, target)
   angleError = angBetween3Pts(ballBefore, ballAfter, target)
   # print "time elapsed:", timeElapsed, "ball travel distance:", travelDist, "distance between ball position before kick and kick target:", getDistTo(ballBefore, target)
-  succeed = travelDist > getDribbleDist(timeElapsed) and angleError < math.pi/6
+  succeed = travelDist > getDribbleDist(timeElapsed)
 
   if succeed:
     return 1
@@ -182,9 +182,9 @@ def smote(newFeatures, labels):
 #16:ballDist,17:angleOfKick,18:ballVelocity,19:angleBetweenMeAndBall
 
 
-def classify(filename='6_20_type4_apollo3d.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
-             thres=0.5, useFeatures=range(1,36), useAll=False, batch=False, useCache=True,
-             featureSelect=False, kickType=[13], draw=False, scale=False, C=1.0, B=1.0, returnProb=False): 
+def classify(filename='7_10_t4_a3d_v2.txt', useFrac=1.0, trainFraction=0.5, equalClassSize=True, 
+             thres=0.5, useFeatures=[0,1,2,3,4,7,8,9,10,11,12], useAll=True, batch=False, useCache=True,
+             featureSelect=False, kickType=[10], draw=False, scale=False, C=1.0, B=1.0, returnProb=False): 
   
   features, labels = parse(filename=filename, useCache=useCache, ezKickSuccess=False, 
                            kickType=kickType, useFirstOnly=False)
